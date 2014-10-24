@@ -252,6 +252,8 @@ Issuances of any non‐zero quantity, that is, issuances which do not merely
 change, e.g., the description of the asset, involve a debit (and destruction)
 of now 0.5 XCP.
 
+Asset descriptions may be of arbitrary length.
+
 
 ### Broadcast
 
@@ -272,6 +274,8 @@ The publishing of a single broadcast with a textual message equal to ‘LOCK’
 of any further broadcasts and from being the subject of any new bets. (If a
 feed is locked while there are open bets or unsettled bet matches that refer to
 it, then those bets and bet matches will expire harmlessly.)
+
+The text field may be of arbitrary length.
 
 A feed is identified by the address which publishes it.
 

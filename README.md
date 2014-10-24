@@ -9,59 +9,57 @@ publication and timestamping of its messages.
 The reference implementation is `counterpartyd`, which is hosted at
 <https://github.com/CounterpartyXCP/counterpartyd>.
 
+This document describes exclusively the latest version of the Counterparty
+protocol. For historical protocol changes, see the counterpartyd CHANGELOG and
+earlier versions of this document.
+
 
 ## Transactions
 
-Every Counterparty message has the following identifying features:
-* One source address
-* One destination address
-* A quantity of bitcoins sent from the source to the destination, if it exists.
-* A fee, in bitcoins, paid to the bitcoin miners who include the transaction in
+Counterparty messages have the following components:
+* Source addresses
+* Destination addresses (optional)
+* A quantity of bitcoins sent from the sources to the destinations, if it exists.
+* A fee, in bitcoins, paid to the Bitcoin miners who include the transaction in
   a block.
-* Up to 80 bytes of ‘data’, imbedded in specially constructed transaction
-  outputs.
+* Some ‘data’, imbedded in specially constructed transaction outputs.
 
 Every Bitcoin transaction carrying a Counterparty transaction has the following
-possible outputs: a single destination output, zero or more data outputs, and
-optional change outputs. The first output before the first data output is the
-destination output. Change outputs (outputs after the last data output) have no
-importance to Counterparty. All data outputs must appear in direct succession.
+possible outputs: zero or more destination outputs, zero or more data outputs,
+and optional change outputs. All data outputs follow all destination outputs.
+Change outputs (outputs after the last data output) have no significance.
 
 For identification purposes, every Counterparty transaction’s ‘data’ field is
 prefixed by the string ‘CNTRPRTY’, encoded in UTF‐8. This string is long enough
 that transactions with outputs containing pseudo‐random data cannot be mistaken
-for containing valid Counterparty transaction data. In testing (i.e. using the
-TESTCOIN Counterparty network on any blockchain), this string is ‘XX’.
+for valid Counterparty transactions . In testing (i.e. using the TESTCOIN
+Counterparty network on any blockchain), this string is ‘XX’.
 
 Counterparty data may be stored in three different types of outputs, or in some
-mixtures of those formats. Multi‐signature data outputs are one‐of‐two outputs
-where the first public key is that of the sender, so that the value of the
-output is redeemable, and the second public key encodes the data, zero‐padded
-and prefixed with a length byte.
-	`OP_RETURN` data output format
-	pay‐to‐pubkeyhash data output format
-		encryption
+combinations of those formats. All of the data is obfuscated by ARC4 encryption
+using the public key of the first sender as the encryption key.
 
-The existence of the destination output, and the significance of the size of
+Multi‐signature data outputs are one‐of‐three outputs where the first public
+key is that of the sender, so that the value of the output is redeemable, and
+the second two public keys encode the data, zero‐padded and prefixed with a
+length byte.
+
+The data may also be stored in `OP_RETURN` outputs or as fake pubkeyhashes.
+
+The existence of the destination outputs, and the significance of the size of
 the Bitcoin fee and the Bitcoins transacted, depend on the Counterparty message
 type, which is determined by the four bytes in the data field that immediately
 follow the identification prefix. The rest of the data have a formatting
 specific to the message type, described in the source code.
 
-Every Counterparty transaction must, moreover, have a unique and unambiguous
-source address: all of the inputs to a Bitcoin transaction which contains a
-Counterparty transaction must be the same—the unique source of the funds in the
-Bitcoin transaction is the source of the Counterparty transaction within.
-
-The source and destination of a Counterparty transaction are Bitcoin addresses,
-and any Bitcoin address may receive any Counterparty asset (and send it, if it
-owns any).
+The sources and destinations of a Counterparty transaction are Bitcoin
+addresses, and may be either `OP_CHECKSIG` and `OP_CHECKMULTISIG` Bitcoin
+ScriptPubkeys.
 
 All messages are parsed in order, one at a time, ignoring block boundaries.
 
-Orders, bets, order matches and bet matches are expired at the end of blocks.
-
-* Currently only Pay‐to‐Pubkey‐Hash addresses are supported.
+Orders, bets, order matches, bet matches and rock‐paper‐scissor matches are
+expired at the end of blocks.
 
 
 ## Non‐Counterparty transactions
@@ -72,8 +70,7 @@ not themselves considered Counterparty transactions:
 * BTC sends
 * BTC dividends to Counterparty assets
 
-Neither of these two transactions is constructed with a data field, and in the
-latter, multiple ‘destination’ outputs are used.
+Neither of these two transactions is constructed with a data field.
 
 
 ## mempool transactions
@@ -82,7 +79,7 @@ Always have block index = 9999999 (`config.MEMPOOL_BLOCK_INDEX`).
 
 DB changes never persist across sessions.
 
-No matching for orders or bets.
+No matching for orders, bets, rps.
 
 
 ## Assets
@@ -340,6 +337,8 @@ payments may be the same. Bitcoin dividend payments do not employ the
 Counterparty protocol and so are larger and more expensive (in fees) than all
 other dividend payments.
 
+* TODO: dividends on escrowed funds
+
 
 ### Burn
 
@@ -371,7 +370,11 @@ contains the order or bet to be cancelled. Only the address which made an offer
 may cancel it.
 
 
+
 ### Callback
 
 *Callbacks are currently disabled on Counterparty mainnet, as the logic by
 which they are parsed is currently undergoing revision and testing.*
+
+
+### Rock‐Paper‐Scissors

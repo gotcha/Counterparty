@@ -343,6 +343,8 @@ other dividend payments.
 
 * TODO: dividends on escrowed funds
 
+There is a small fee per recipient with dividends, to prevent SPAM.
+
 
 ### Burn
 

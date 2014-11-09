@@ -97,11 +97,12 @@ All assets except BTC and XCP have the following properties:
 	* may be increased with later issuances
 
 
-Asset names are strings of uppercase ASCII characters that, when encoded as a
-decimal integer, are greater than 26^3 and less than or equal to 256^8: all
-asset names, other than ‘BTC’ and ‘XCP’ must be at least four letters long;
-asset names may not begin with the character ‘A’. Thus, some thirteen‐character
-asset names are valid, but no fourteen‐character names are.
+Newly registered asset names will be either (unique) strings of 4 to 12
+uppercase Latin characters (inclusive) not beginning with ‘A’, or integers
+between 26^12 + 1 and 256^8 (inclusive), prefixed with ‘A’. Alphabetic asset
+names will carry a one‐time issuance fee (by burn) of 0.5 XCP and numeric asset
+names will be freely available. ‘BTC’ and ‘XCP’ are the only three‐character
+asset names. Example asset names:
 
 Assets may be either divisible or indivisible, and divisible assets are
 divisible to eight decimal places. Assets also come with descriptions, which

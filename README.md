@@ -322,7 +322,7 @@ Betting fees are proportional to the initial wagers, not the earnings. They are
 taken from, not added to, the quantities wagered.
 
 * Because of the block time, and the non‐deterministic way in which
-  transactions are ordered in the blockchain, all contracts must be not be
+  transactions are ordered in the blockchain, all contracts must not be
   incrementally settled, but the funds in question must be immediately put into
   escrow, and there must be a settlement date. Otherwise, one could see a price
   drop coming, and ‘fight’ to hide the funds that were going to be deducted.

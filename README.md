@@ -394,10 +394,10 @@ By implementing Ethereum's entire smart contracts platform Counterparty enables 
 Counterparty contract language is fully compatible with Ethereum’s with the exception of the following minor incompatibilities:
 
 - Two EVM opcodes (COINBASE and GASLIMIT) involved in mining were removed because XCP is unmined.
-- The new ASSET_BALANCE opcode may be used to retrieve the balance of native Counterparty assets and BTC. It takes two inputs (address and asset_id) and returns one value (the balance of the address in the asset named). It has the same gas cost asBALANCE (which looks only at XCP).
-- The new SEND opcode may be used for sending native Counterparty assets to Counterparty (Bitcoin) addresses. SEND has three inputs (address, quantity,asset_id) and no outputs; it has the same cost as CALL.
+- The new ASSET_BALANCE opcode may be used to retrieve the balance of native Counterparty assets and BTC. It takes two inputs (address and asset_id) and returns one value (the balance of the address in the asset named). It has the same gas cost as BALANCE (which looks only at XCP).
+- The new SEND opcode may be used for sending native Counterparty assets to Counterparty (Bitcoin) addresses. SEND has three inputs (address, quantity, asset_id) and no outputs; it has the same cost as CALL.
 
-The basic fee structure of Counterparty Contracts is very similar to that of Ethereum. Different computational or storage operations will be associated with different fees, to prevent abuse of the system. Contract execution fees will be paid only in XCP, the native currency of Counterparty, (it would not be possible for them to be paid in Bitcoin). The contract system will be fully compatible with the existing Counterparty asset system and decentralized exchange.
+The basic fee structure of Counterparty Contracts is very similar to that of Ethereum. Different computational or storage operations will be associated with different fees, to prevent abuse of the system. Contract execution fees will be paid only in XCP, the native currency of Counterparty (it would not be possible for them to be paid in Bitcoin). The contract system will be fully compatible with the existing Counterparty asset system and decentralized exchange.
 
 The economics of the fee system for Counterparty Contracts is necessarily rather different from those of Ethereum, simply because there are no Counterparty miners. All Counterparty nodes will execute all contracts, and it will be the holders of XCP that receive the fees for the execution. The simplest and most robust way to make this payment will be just to destroy the fees, and to thereby reduce the money supply, as this is equivalent to paying the fee out to all holders of XCP in proportion to the size of their holdings. 
 

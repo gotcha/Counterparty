@@ -125,7 +125,7 @@ XCP and the unit (not satoshis) of the callable asset.
 * max int
 
 * oversend, overbet, overorder
-	* not btcpay, callback (impossible, because of rounding), issuance (fragile!), dividend (?!)
+	* not btcpay, issuance (fragile!), dividend (?!)
 
 
 
@@ -158,7 +158,6 @@ Bitcoin cannot be filled, but remain always with a status `open`.
 * Dividend
 * Burn
 * Cancel
-* Callback
 
 
 ### Send
@@ -375,13 +374,6 @@ Open offers may be cancelled, which cancellation is irrevocable.
 A *cancel* message contains only the hash of the Bitcoin transaction that
 contains the order or bet to be cancelled. Only the address which made an offer
 may cancel it.
-
-
-
-### Callback
-
-*Callbacks are currently disabled on Counterparty mainnet, as the logic by
-which they are parsed is currently undergoing revision and testing.*
 
 
 ### Rock‐Paper‐Scissors

@@ -22,7 +22,7 @@ Counterparty messages have the following components:
 * A quantity of bitcoins sent from the sources to the destinations, if it exists.
 * A fee, in bitcoins, paid to the Bitcoin miners who include the transaction in
   a block.
-* Some ‘data’, imbedded in specially constructed transaction outputs.
+* Some ‘data’, embedded in specially constructed transaction outputs.
 
 Every Bitcoin transaction carrying a Counterparty transaction has the following
 possible outputs: zero or more destination outputs, zero or more data outputs,
